@@ -49,9 +49,11 @@ for k, v in package_indexes.items():
     with open(os.path.join(package_dir, 'index.html'), 'w', encoding='utf-8') as f:
         f.write(str(page))
 
-with open(os.path.join('static', 'index.html'), 'w', encoding='utf-8') as f:
-    indexes_text = ''
-    for k, v in package_indexes.items():
-        indexes_text += f'<a href="{k}/">rocm{k}</a><br>'
+html = ''
+with open(os.path.join('static', 'index.html'), 'r', encoding='utf-8') as f:
     html = f.read()
+indexes_text = ''
+for k, v in package_indexes.items():
+    indexes_text += f'<a href="{k}/">rocm{k}</a><br>'
+with open(os.path.join('static', 'index.html'), 'w', encoding='utf-8') as f:
     f.write(html.replace('%INDEXES%', indexes_text))
