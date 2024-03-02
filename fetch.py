@@ -29,12 +29,15 @@ INDEX_HTML = '''<!DOCTYPE html>
     </body>
 </html>'''
 for k, v in package_indexes.items():
-    dir = os.path.join('static', k)
-    os.mkdir(dir)
-    with open(os.path.join(dir, 'index.html'), 'w', encoding='utf-8') as f:
+    index_dir = os.path.join('static', k)
+    os.mkdir(index_dir)
+    with open(os.path.join(index_dir, 'index.html'), 'w', encoding='utf-8') as f:
         f.write(INDEX_HTML)
-    package_index_dir = os.path.join(dir, 'onnxruntime-training')
-    os.mkdir(package_index_dir)
+    package_dir = os.path.join(index_dir, 'onnxruntime-training')
+    os.mkdir(package_dir)
     html = requests.get(hostname + v)
-    with open(os.path.join(package_index_dir, 'index.html'), 'w', encoding='utf-8') as f:
-        f.write(html.text)
+    page = bs(html.text, 'html.parser')
+    for e in page.find_all('a'):
+        e.attrs['href'] = hostname + e.attrs['href']
+    with open(os.path.join(package_dir, 'index.html'), 'w', encoding='utf-8') as f:
+        f.write(str(page))
