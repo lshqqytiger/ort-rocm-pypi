@@ -3,15 +3,18 @@
   <head>
     <script>
       const nightly = ["57", "60"];
-      const [_, rocm] = new URL(location.href).pathname.split("/");
-      document.addEventListener("DOMContentLoaded", () => {
-        const anchor = document.createElement("a");
-        anchor.innerText = "onnxruntime-training";
-        anchor.href = `https://download.onnxruntime.ai/onnxruntime_${
-          nightly.includes(rocm) ? "nightly" : "stable"
-        }_rocm${rocm}.html`;
-        document.body.appendChild(anchor);
-      });
+      const [_, rocm, package] = new URL(location.href).pathname.split("/");
+      const href = `https://download.onnxruntime.ai/onnxruntime_${
+        nightly.includes(rocm) ? "nightly" : "stable"
+      }_rocm${rocm}.html`;
+      if (package !== undefined) location.href = href;
+      else
+        document.addEventListener("DOMContentLoaded", () => {
+          const anchor = document.createElement("a");
+          anchor.innerText = "onnxruntime-training";
+          anchor.href = href;
+          document.body.appendChild(anchor);
+        });
     </script>
   </head>
   <body></body>
