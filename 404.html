@@ -7,7 +7,16 @@
       const href = `https://download.onnxruntime.ai/onnxruntime_${
         nightly.includes(rocm) ? "nightly" : "stable"
       }_rocm${rocm}.html`;
-      if (package !== undefined) location.href = href;
+      if (package !== undefined)
+        document.addEventListener("DOMContentLoaded", () => {
+          const anchor = document.createElement("a");
+          anchor.innerText =
+            "onnxruntime_training-1.17.0.dev20240129003%2Brocm60-cp310-cp310-manylinux_2_28_x86_64.whl";
+          anchor.href =
+            "https://download.onnxruntime.ai/onnxruntime_training-1.17.0.dev20240129003%2Brocm60-cp310-cp310-manylinux_2_28_x86_64.whl";
+          document.body.appendChild(anchor);
+        });
+      //location.href = href;
       else
         document.addEventListener("DOMContentLoaded", () => {
           const anchor = document.createElement("a");
